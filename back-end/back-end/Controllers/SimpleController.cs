@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using back_end.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace back_end.Controllers
@@ -10,6 +11,12 @@ namespace back_end.Controllers
     [ApiController]
     public class SimpleController : Controller
     {
+        private ISimpleService _service;
+
+        public SimpleController(ISimpleService service)
+        {
+            _service = service;
+        }
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
@@ -19,9 +26,11 @@ namespace back_end.Controllers
 
         // GET api/values/5
         [HttpGet("currencies")]
-        public ActionResult<string> Get(int id)
+        public async Task<ActionResult<string>> GetCurrencies()
         {
-            return Json( new { response = "200 OK" } );
+            var x = await _service.GetCurrencies();
+
+            return Json(x);
         }
 
 
