@@ -24,13 +24,13 @@ namespace back_end.Controllers
             return new string[] { "value1", "value2" };
         }
 
-        // GET api/values/5
+
         [HttpGet("currencies")]
         public async Task<ActionResult<string>> GetCurrencies()
         {
-            var x = await _service.GetCurrencies();
+            var currencies = await _service.GetCurrencies();
 
-            return Json(x);
+            return Json(currencies);
         }
 
 

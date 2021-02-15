@@ -28,16 +28,17 @@ namespace back_end.Services
                 {
                     var responseObj = new Dictionary<string, object>();
                     var dataStr = "";
-                    var teste = null as List<Currency>;
+                    var deserializedCurrencies = null as List<Currency>;
                     using (System.IO.StreamReader sr = new System.IO.StreamReader(await response.Content.ReadAsStreamAsync()))
                     {
                         responseObj = JsonConvert.DeserializeObject<Dictionary<string, object>>(sr.ReadToEnd());
                         dataStr = JsonConvert.SerializeObject(responseObj["data"]);
-                        teste = JsonConvert.DeserializeObject<List<Currency>>(dataStr);
+
+                        deserializedCurrencies = JsonConvert.DeserializeObject<List<Currency>>(dataStr);
                     }
 
 
-                    return teste;
+                    return deserializedCurrencies;
                 }
 
                 return new List<Currency>();

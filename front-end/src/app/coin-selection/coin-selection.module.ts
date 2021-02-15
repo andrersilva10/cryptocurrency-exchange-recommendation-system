@@ -2,12 +2,13 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { CurrenciesService } from '../shared/services/currencies.service';
-
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CoinSelectionRoutingModule } from './coin-selection.routing.module';
 import { FormComponent } from './form/form.component';
+
 
 
 
@@ -20,7 +21,9 @@ import { FormComponent } from './form/form.component';
     ReactiveFormsModule,
     MatAutocompleteModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatButtonModule,
+    MatSnackBarModule
   ],
   providers:[
     

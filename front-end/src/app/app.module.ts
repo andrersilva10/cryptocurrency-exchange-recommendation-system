@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { CoinSelectionModule } from './coin-selection/coin-selection.module';
 import { CurrenciesService } from './shared/services/currencies.service';
 import { HttpClientModule } from '@angular/common/http';
+import {MatButtonModule} from '@angular/material/button';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     BrowserAnimationsModule,
     CoinSelectionModule,
-    HttpClientModule
+    HttpClientModule,
+    
   ],
   providers: [HttpClient,CurrenciesService],
   bootstrap: [AppComponent]
