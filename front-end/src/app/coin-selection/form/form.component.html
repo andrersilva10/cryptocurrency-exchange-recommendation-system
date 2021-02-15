@@ -1,1 +1,31 @@
-<p>form works!</p>
+<form class="example-form">
+    <mat-form-field class="example-full-width">
+      <mat-label>Trade</mat-label>
+      <input type="text"
+             placeholder="Choose one"
+             aria-label="Trade"
+             matInput
+             [formControl]="currencySourceControl"
+             [matAutocomplete]="auto1">
+      <mat-autocomplete #auto1="matAutocomplete">
+        <mat-option *ngFor="let option of filteredOptions1 | async" [value]="option.id">
+          {{option.name}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+        <mat-label>To</mat-label>
+        <input type="text"
+               placeholder="Choose one"
+               aria-label="To"
+               matInput
+               [formControl]="currencyTargetControl"
+               [matAutocomplete]="auto2">
+        <mat-autocomplete #auto2="matAutocomplete">
+          <mat-option *ngFor="let option of filteredOptions2 | async" [value]="option.id">
+            {{option.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+  </form>
