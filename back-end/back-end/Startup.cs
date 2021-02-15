@@ -39,7 +39,8 @@ namespace back_end
                 });
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddControllers();
             services.AddScoped<ISimpleService, SimpleService>();
 
         }
@@ -59,7 +60,13 @@ namespace back_end
 
             app.UseCors(MyAllowSpecificOrigins);
             app.UseHttpsRedirection();
-            app.UseMvc();
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+            //app.UseMvc();
         }
     }
 }
