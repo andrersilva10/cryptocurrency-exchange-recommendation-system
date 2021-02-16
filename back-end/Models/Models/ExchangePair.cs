@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace back_end.Domain.Models
+namespace Domain.Models
 {
     public class ExchangePair
     {
         public int Id { get; set; }
-
         public int IdExchange { get; set; }
         public string Base { get; set; }
         public string Quote { get; set; }

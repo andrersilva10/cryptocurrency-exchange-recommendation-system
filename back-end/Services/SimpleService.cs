@@ -1,30 +1,25 @@
-﻿using back_end.Domain.Models;
+﻿using AppConfig;
+using Domain.Models;
+using Domain.Services;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Net.Http;
-using Newtonsoft.Json;
-using Microsoft.Extensions.Configuration;
+using System.Threading.Tasks;
 
-namespace back_end.Services
+namespace Services
 {
-    public interface ISimpleService
-    {
-        Task<List<Currency>> GetCurrencies();
-        Task<List<Exchange>> GetExchanges();
-        Task<List<ExchangePair>> GetPairsByExchangeId(int idExchange);
-        Task<List<Exchange>> GetExchangeWithPairs();
-    }
-    public class SimpleService: ISimpleService
+    public class SimpleService : ISimpleService
     {
 
         private HttpClient _httpClient;
         private readonly IConfiguration _config;
-
+        private AppConfiguration _appConfiguration;
         public SimpleService(IConfiguration config)
         {
             _httpClient = new HttpClient();
+            _appConfiguration = new AppConfiguration();
             _config = config;
 
         }
@@ -32,11 +27,11 @@ namespace back_end.Services
         {
             try
             {
-                var url = _config.GetValue<string>("Apis:CoinLore:GetCurrencies");
-
+                //var url = _config.GetValue<string>("Apis:CoinLore:GetCurrencies");
+                var url = _appConfiguration.GetCurrencies;
                 var response = await _httpClient.GetAsync(url);
 
-                if(response.StatusCode == System.Net.HttpStatusCode.OK)
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     var responseObj = new Dictionary<string, object>();
                     var dataStr = "";
@@ -63,7 +58,8 @@ namespace back_end.Services
         {
             try
             {
-                var url = _config.GetValue<string>("Apis:CoinLore:GetExchanges");
+                //var url = _config.GetValue<string>("Apis:CoinLore:GetExchanges");
+                var url = _appConfiguration.GetExchanges;
 
                 var response = await _httpClient.GetAsync(url);
 
@@ -76,13 +72,13 @@ namespace back_end.Services
                     {
                         responseObj = JsonConvert.DeserializeObject<Dictionary<string, object>>(sr.ReadToEnd());
                         var exchanges = new List<Exchange>();
-                        foreach(var key in responseObj.Keys)
+                        foreach (var key in responseObj.Keys)
                         {
                             dataStr = JsonConvert.SerializeObject(responseObj[key]);
                             var obj = JsonConvert.DeserializeObject<Exchange>(dataStr);
                             deserializedCurrencies.Add(obj);
                         }
-                        
+
                     }
                     return deserializedCurrencies;
                 }
@@ -94,12 +90,15 @@ namespace back_end.Services
                 throw;
             }
         }
-        
+
         public async Task<List<ExchangePair>> GetPairsByExchangeId(int idExchange)
         {
             try
             {
-                var url = _config.GetValue<string>("Apis:CoinLore:GetPairsFromOneExchange") + $"?id={idExchange}";
+                //var url = _config.GetValue<string>("Apis:CoinLore:GetPairsFromOneExchange") + $"?id={idExchange}";
+
+                var url = _appConfiguration.GetPairsFromOneExchange + $"?id={idExchange}";
+
                 var response = await _httpClient.GetAsync(url);
                 var responseObj = new Dictionary<string, object>();
                 var dataStr = "";
