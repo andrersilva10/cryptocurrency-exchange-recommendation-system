@@ -33,6 +33,31 @@ namespace back_end.Controllers
             return Json(currencies);
         }
 
+        [HttpGet("exchanges")]
+        public async Task<ActionResult<string>> GetExchanges()
+        {
+            var exchanges = await _service.GetExchanges();
+
+            return Json(exchanges);
+        }
+
+        [HttpGet("exchange/{id}")]
+        public async Task<ActionResult<string>> GetPairsByExchangeId(int id)
+        {
+            var pairs = await _service.GetPairsByExchangeId(id);
+
+
+            return Json(pairs);
+        }
+
+        [HttpGet("exchanges-with-pairs")]
+        public async Task<ActionResult<string>> GetExchangesWithPairs()
+        {
+            var pairs = await _service.GetExchangeWithPairs();
+
+
+            return Json(pairs);
+        }
 
     }
 }
