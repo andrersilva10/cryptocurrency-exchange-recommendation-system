@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace Domain.Models
+namespace Models.Models
 {
     public class Exchange
     {
@@ -17,7 +17,7 @@ namespace Domain.Models
         [JsonProperty("pairs")]
         public int ActivePairs { get; set; }
         public string Country { get; set; }
-        public List<ExchangePair> Pairs { get; set; }
+        public List<ExchangePair> ExchangePairs { get; set; }
 
     }
 }

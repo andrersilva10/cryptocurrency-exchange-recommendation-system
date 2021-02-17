@@ -1,0 +1,57 @@
+.mat-column-idPair, .mat-column-pairPrice  {
+  flex: none;
+  width: 200px;
+} 
+.mat-column-exchangeName{
+  flex: none;
+  width: 300px;
+}
+
+.mat-column-pairVolume{
+  flex: none;
+  width: 300px;
+}
+/* table{
+    width: 100%;
+   }
+   
+   .mat-column-idPair {
+     word-wrap: break-word !important;
+     white-space: unset !important;
+     flex: 0 0 28% !important;
+     width: 28% !important;
+     overflow-wrap: break-word;
+     word-wrap: break-word;
+   
+     word-break: break-word;
+   
+     -ms-hyphens: auto;
+     -moz-hyphens: auto;
+     -webkit-hyphens: auto;
+     hyphens: auto;
+   }
+   
+   .mat-column-pairPrice {
+     word-wrap: break-word !important;
+     white-space: unset !important;
+     flex: 0 0 25% !important;
+     width: 25% !important;
+     overflow-wrap: break-word;
+     word-wrap: break-word;
+   
+     word-break: break-word;
+   
+     -ms-hyphens: auto;
+     -moz-hyphens: auto;
+     -webkit-hyphens: auto;
+     hyphens: auto;
+   }
+   
+   .mat-column-exchangeName {
+     word-wrap: break-word !important;
+     white-space: unset !important;
+     flex: 0 0 17% !important;
+     width: 17% !important;
+     overflow-wrap: break-word;
+     word-wrap: break-word;
+   } */

@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AppConfig\AppConfig.csproj" />
-    <ProjectReference Include="..\Models\Domain.csproj" />
+    <ProjectReference Include="..\Models\Models.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { CurrencyModel } from 'src/app/shared/models/currency.model';
@@ -23,7 +24,8 @@ export class FormComponent implements OnInit {
 
   constructor(
     private _currenciesService: CurrenciesService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private _router: Router
   ) {
 
     this.form = new FormGroup({
@@ -56,8 +58,11 @@ export class FormComponent implements OnInit {
     let value1 = this.form.controls['currencySourceControl'].value as CurrencyModel;
     let value2 = this.form.controls['currencyTargetControl'].value as CurrencyModel;
 
-    if(value1.nameId == value2.nameId)
+    if(value1.nameId == value2.nameId){
       this._snackBar.open("Choose different currencies","", {duration : 2000})
+      return;
+    }
+    this._router.navigate([`coin-selection`, value1.symbol, value2.symbol,'results']);
   }
   private _filter(value, obj: CurrencyModel[]): CurrencyModel[] {
     const filterValue = typeof value == 'string' ? value.toLowerCase() : value.name;

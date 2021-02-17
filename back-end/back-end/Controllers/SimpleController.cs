@@ -59,5 +59,18 @@ namespace back_end.Controllers
             return Json(pairs);
         }
 
+        [HttpPost("exchanges")]
+        public async Task<ActionResult<string>> AddExchanges()
+        {
+            await _service.AddExchanges();
+
+            return Json("{}");
+        }
+        [HttpGet("exchanges/trade/{currencySymbol1}/to/{currencySymbol2}")]
+        public ActionResult<string> GetExchangesByTwoCurrencies(string currencySymbol1, string currencySymbol2)
+        {
+            var exchanges = _service.GetExchangesByTwoCurrencies(currencySymbol1, currencySymbol2);
+            return Json(exchanges);
+        }
     }
 }

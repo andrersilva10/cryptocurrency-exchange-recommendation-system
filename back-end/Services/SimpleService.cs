@@ -1,33 +1,33 @@
 ﻿using AppConfig;
-using Domain.Models;
+using Domain.Interfaces;
+using Models.Models;
 using Domain.Services;
+using Models.ViewModels;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-
+using System.Linq;
 namespace Services
 {
     public class SimpleService : ISimpleService
     {
 
         private HttpClient _httpClient;
-        private readonly IConfiguration _config;
         private AppConfiguration _appConfiguration;
-        public SimpleService(IConfiguration config)
+        private IExchangeRepository _repository;
+        public SimpleService(IExchangeRepository repository)
         {
             _httpClient = new HttpClient();
             _appConfiguration = new AppConfiguration();
-            _config = config;
-
+            _repository = repository;
         }
         public async Task<List<Currency>> GetCurrencies()
         {
             try
             {
-                //var url = _config.GetValue<string>("Apis:CoinLore:GetCurrencies");
                 var url = _appConfiguration.GetCurrencies;
                 var response = await _httpClient.GetAsync(url);
 
@@ -47,7 +47,7 @@ namespace Services
                 }
                 return new List<Currency>();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
                 throw;
@@ -58,7 +58,6 @@ namespace Services
         {
             try
             {
-                //var url = _config.GetValue<string>("Apis:CoinLore:GetExchanges");
                 var url = _appConfiguration.GetExchanges;
 
                 var response = await _httpClient.GetAsync(url);
@@ -84,7 +83,7 @@ namespace Services
                 }
                 return new List<Exchange>();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
                 throw;
@@ -95,8 +94,6 @@ namespace Services
         {
             try
             {
-                //var url = _config.GetValue<string>("Apis:CoinLore:GetPairsFromOneExchange") + $"?id={idExchange}";
-
                 var url = _appConfiguration.GetPairsFromOneExchange + $"?id={idExchange}";
 
                 var response = await _httpClient.GetAsync(url);
@@ -110,9 +107,12 @@ namespace Services
                     {
                         responseObj = JsonConvert.DeserializeObject<Dictionary<string, object>>(sr.ReadToEnd());
 
-                        dataStr = JsonConvert.SerializeObject(responseObj["pairs"]);
+                        if(responseObj != null)
+                        {
+                            dataStr = JsonConvert.SerializeObject(responseObj["pairs"]);
+                            deserializedPairs = JsonConvert.DeserializeObject<List<ExchangePair>>(dataStr);
+                        }
 
-                        deserializedPairs = JsonConvert.DeserializeObject<List<ExchangePair>>(dataStr);
 
                     }
                 }
@@ -130,11 +130,24 @@ namespace Services
             var exchanges = await GetExchanges();
             foreach (var item in exchanges)
             {
-                item.Pairs = await GetPairsByExchangeId(item.Id);
-                item.Pairs.ForEach(x => x.IdExchange = item.Id);
+                item.ExchangePairs = await GetPairsByExchangeId(item.Id);
+                item.ExchangePairs.ForEach(x => x.IdExchange = item.Id);
             }
             return exchanges;
         }
 
+        public async Task AddExchanges()
+        {
+            var exchanges = await GetExchangeWithPairs();
+            _repository.AddExchanges(exchanges);
+
+        }
+
+        public List<PairViewModel> GetExchangesByTwoCurrencies(string currencySymbol1, string currencySymbol2)
+        {
+            var pairs = _repository.GetExchangesByTwoCurrencies(currencySymbol1, currencySymbol2).Select(x => new PairViewModel(x)).ToList();
+            pairs.Where(x => x.PairPrice == pairs.Min(y => y.PairPrice)).ToList().ForEach(x => x.BestRate = true);
+            return pairs;
+        }
     }
 }

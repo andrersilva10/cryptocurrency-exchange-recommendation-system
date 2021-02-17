@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using Models.Models;
+using Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,5 +13,7 @@ namespace Domain.Services
         Task<List<Exchange>> GetExchanges();
         Task<List<ExchangePair>> GetPairsByExchangeId(int idExchange);
         Task<List<Exchange>> GetExchangeWithPairs();
+        Task AddExchanges();
+        List<PairViewModel> GetExchangesByTwoCurrencies(string currencySymbol1, string currencySymbol2);
     }
 }
