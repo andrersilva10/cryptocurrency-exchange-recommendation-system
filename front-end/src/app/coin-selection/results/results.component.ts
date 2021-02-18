@@ -1,38 +1,22 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Params } from '@angular/router';
+import { ChartDataSets } from 'chart.js';
+import { Label } from 'ng2-charts';
 import { Subscription } from 'rxjs';
 import { PairModel } from 'src/app/shared/models/pair.model';
 import { CurrenciesService } from 'src/app/shared/services/currencies.service';
-import {MatPaginator} from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];
+import { ExchangeRateService } from 'src/app/shared/services/exchange-rate.service';
 
 @Component({
   selector: 'app-results',
   templateUrl: './results.component.html',
   styleUrls: ['./results.component.css']
 })
-export class ResultsComponent implements OnInit {
-  displayedColumns: string[] = ['idPair','exchangeName','pairPrice','pairVolume'  ];
+export class ResultsComponent implements OnInit, AfterViewInit {
+  displayedColumns: string[] = ['idPair', 'exchangeName', 'pairPrice', 'pairVolume'];
   routeData: Subscription;
   apiData: Subscription;
 
@@ -42,9 +26,18 @@ export class ResultsComponent implements OnInit {
   dataSource = new MatTableDataSource<PairModel>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
   showResults = false;
-  constructor(private _currenciesService: CurrenciesService
-    , private _activatedRoute: ActivatedRoute,) { }
+  dataFound = true;
+  showChart = false;
+
+  chartLabels: Label[];
+  chartData: ChartDataSets[];
+  constructor(
+    private _currenciesService: CurrenciesService,
+    private _activatedRoute: ActivatedRoute,
+    private _exchangeRateService: ExchangeRateService) { }
 
   ngOnInit(): void {
     this.routeData = this._activatedRoute.params.subscribe((params: Params) => {
@@ -52,14 +45,55 @@ export class ResultsComponent implements OnInit {
       this.currencySymbol2 = params['to'];
       if (this.currencySymbol1 && this.currencySymbol2) {
         this.showResults = false;
-        this.apiData = this._currenciesService.getPairs(this.currencySymbol1,this.currencySymbol2).subscribe(data => {
-          this.dataSource = new MatTableDataSource<PairModel>(data) ;
-          this.showResults = true;
-          this.dataSource.paginator = this.paginator;
-        });
+        this.apiData = this._currenciesService
+                          .getPairs(this.currencySymbol1, this.currencySymbol2)
+                            .subscribe(data => this.getPairsCallback(data));
+
       }
     });
-    
+
   }
+
+  setTimeSeries() {
+
+  }
+  goToLink(url: string) {
+    window.open(url, '_blank');
+  }
+
+  ngAfterViewInit() {
+  }
+
+  getPairsCallback = (data) => {
+    this.dataSource = new MatTableDataSource<PairModel>(data);
+
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+
+    this._exchangeRateService.getTimeSeries(this.currencySymbol1, this.currencySymbol2).subscribe(data2 => this.chartCallback(data2));
+
+    this.showResults = true;
+    this.dataFound = data != null && data.length > 0;
+  }
+
+  chartCallback = (data) => {
+    debugger;
+    let chartLabels = Object.getOwnPropertyNames(data.rates);
+    if(chartLabels.length == 0){
+      this.showChart = false;
+      return;
+    }
+      
+    let chartData = [];
+
+    chartLabels.forEach(element => {
+      chartData.push(data.rates[element][this.currencySymbol2]);
+    });
+    this.chartLabels  = chartLabels;
+    this.chartData = [{data: chartData, label: this.currencySymbol1 + '/' + this.currencySymbol2}];
+    this.showChart = true;
+  }
+
+
 
 }

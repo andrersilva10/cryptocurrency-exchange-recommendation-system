@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Models.Interfaces;
 using Services;
 
 namespace back_end
@@ -44,6 +45,7 @@ namespace back_end
 
             //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddControllers();
+            services.AddScoped<IExternalApiService, CoinLoreService>();
             services.AddScoped<ISimpleService, SimpleService>();
             services.AddScoped<ExchangeContext, ExchangeContext>();
             services.AddScoped<IExchangeRepository, ExchangeRepository>();

@@ -8,6 +8,8 @@ import { CoinSelectionModule } from './coin-selection/coin-selection.module';
 import { CurrenciesService } from './shared/services/currencies.service';
 import { HttpClientModule } from '@angular/common/http';
 import {MatButtonModule} from '@angular/material/button';
+import { ChartsModule } from 'ng2-charts';
+import { ExchangeRateService } from './shared/services/exchange-rate.service';
 
 
 @NgModule({
@@ -20,9 +22,9 @@ import {MatButtonModule} from '@angular/material/button';
     BrowserAnimationsModule,
     CoinSelectionModule,
     HttpClientModule,
-    
+    ChartsModule
   ],
-  providers: [HttpClient,CurrenciesService],
+  providers: [HttpClient,CurrenciesService, ExchangeRateService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

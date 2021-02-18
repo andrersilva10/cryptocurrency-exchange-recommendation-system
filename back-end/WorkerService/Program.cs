@@ -19,7 +19,7 @@ namespace WorkerService
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddHostedService<Worker>();
-                    services.AddTransient<ISimpleService, SimpleService>();
+                    services.AddTransient<IExternalApiService, CoinLoreService>();
                     services.AddTransient<ExchangeContext, ExchangeContext>();
                     services.AddTransient<IExchangeRepository, ExchangeRepository>();
                 });
