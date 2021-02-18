@@ -79,6 +79,7 @@ export class ResultsComponent implements OnInit, AfterViewInit {
 
     this.showResults = true;
     this.dataFound = data != null && data.length > 0;
+    this.endRequest =Math.round(performance.now() - this.startRequest);
   }
 
   chartCallback = (data) => {
@@ -97,7 +98,6 @@ export class ResultsComponent implements OnInit, AfterViewInit {
     this.chartData = [{data: chartData, label: this.currencySymbol1 + '/' + this.currencySymbol2}];
     this.showChart = true;
 
-    this.endRequest =Math.round(performance.now() - this.startRequest);
   }
 
 

@@ -21,7 +21,13 @@ namespace back_end.Controllers
             this.externalApiService = externalApiService;
         }
 
+        [HttpPost("exchanges")]
+        public async Task<ActionResult<string>> Exchanges()
+        {
+            await externalApiService.AddExchanges();
 
+            return Json(new { });
+        }
 
         [HttpGet("currencies")]
         public ActionResult<string> GetCurrencies()
