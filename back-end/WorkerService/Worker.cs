@@ -14,8 +14,8 @@ namespace WorkerService
     {
         private readonly ILogger<Worker> _logger;
         private AppConfiguration _appConfig = new AppConfiguration();
-        private ISimpleService _service;
-        public Worker(ILogger<Worker> logger, ISimpleService service)
+        private IExternalApiService _service;
+        public Worker(ILogger<Worker> logger, IExternalApiService service)
         {
             _logger = logger;
             _service = service;
@@ -28,8 +28,15 @@ namespace WorkerService
                 
                 
                 _logger.LogInformation("Updating database at: {time}", DateTimeOffset.Now);
-                
-                await _service.AddExchanges();
+                try
+                {
+                    await _service.AddExchanges();
+                    await _service.AddCurrencies();
+
+                }catch(Exception e)
+                {
+
+                }
                 _logger.LogInformation("Database updated at: {time}", DateTimeOffset.Now);
                 await Task.Delay(_appConfig.Interval.Value, stoppingToken);
             }

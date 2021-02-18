@@ -5,15 +5,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Services
+namespace Models.Interfaces
 {
     public interface ISimpleService
     {
-        Task<List<Currency>> GetCurrencies();
-        Task<List<Exchange>> GetExchanges();
-        Task<List<ExchangePair>> GetPairsByExchangeId(int idExchange);
-        Task<List<Exchange>> GetExchangeWithPairs();
-        Task AddExchanges();
         List<PairViewModel> GetExchangesByTwoCurrencies(string currencySymbol1, string currencySymbol2);
+        List<Currency> GetCurrencies();
     }
 }

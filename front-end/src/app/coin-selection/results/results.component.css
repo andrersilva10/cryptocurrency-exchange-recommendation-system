@@ -11,6 +11,16 @@
   flex: none;
   width: 300px;
 }
+
+.best-rate{
+  background-color: #ffea7c;
+
+}
+.link{
+  cursor: pointer;
+  text-decoration: underline;
+  color:#0000EE;
+}
 /* table{
     width: 100%;
    }

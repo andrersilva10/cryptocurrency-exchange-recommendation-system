@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Domain.Services;
+using Models.Interfaces;
 
 namespace back_end.Controllers
 {
@@ -26,46 +27,14 @@ namespace back_end.Controllers
 
 
         [HttpGet("currencies")]
-        public async Task<ActionResult<string>> GetCurrencies()
+        public ActionResult<string> GetCurrencies()
         {
-            var currencies = await _service.GetCurrencies();
+            var currencies =  _service.GetCurrencies();
 
             return Json(currencies);
         }
 
-        [HttpGet("exchanges")]
-        public async Task<ActionResult<string>> GetExchanges()
-        {
-            var exchanges = await _service.GetExchanges();
 
-            return Json(exchanges);
-        }
-
-        [HttpGet("exchange/{id}")]
-        public async Task<ActionResult<string>> GetPairsByExchangeId(int id)
-        {
-            var pairs = await _service.GetPairsByExchangeId(id);
-
-
-            return Json(pairs);
-        }
-
-        [HttpGet("exchanges-with-pairs")]
-        public async Task<ActionResult<string>> GetExchangesWithPairs()
-        {
-            var pairs = await _service.GetExchangeWithPairs();
-
-
-            return Json(pairs);
-        }
-
-        [HttpPost("exchanges")]
-        public async Task<ActionResult<string>> AddExchanges()
-        {
-            await _service.AddExchanges();
-
-            return Json("{}");
-        }
         [HttpGet("exchanges/trade/{currencySymbol1}/to/{currencySymbol2}")]
         public ActionResult<string> GetExchangesByTwoCurrencies(string currencySymbol1, string currencySymbol2)
         {
