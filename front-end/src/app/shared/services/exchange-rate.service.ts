@@ -26,7 +26,6 @@ export class ExchangeRateService{
         let month2 = this.putZeroInTheLeft((today.getMonth() + 1));
         let day1 = this.putZeroInTheLeft(tenDaysAgo.getDate());
         let day2 = this.putZeroInTheLeft(today.getDate());
-
         let d1 =`${tenDaysAgo.getFullYear()}-${month1}-${day1}` ;
         let d2 =`${today.getFullYear()}-${month2}-${day2}` ;
 
