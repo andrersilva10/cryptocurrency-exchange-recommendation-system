@@ -15,7 +15,8 @@ CREATE TABLE TB_EXCHANGES(
 	[URL] NVARCHAR(255),
 	[VOLUME_USD] DECIMAL(30,5),
 	ACTIVE_PAIRS INT,
-	COUNTRY VARCHAR(255)
+	COUNTRY VARCHAR(255),
+	UPDATE_TIME DATETIME not null DEFAULT GETDATE()
 );
 GO
 
@@ -35,11 +36,10 @@ GO
 
 
 
-select * from  TB_EXCHANGEs  with (NOLOCK)
-select * from TB_EXCHANGE_PAIRS
+--select * from  TB_EXCHANGEs 
+--select * from TB_EXCHANGE_PAIRS where base = 'DOGE' and QUOTE = 'BTC'
 
-
-drop table TB_EXCHANGEs
-drop table TB_EXCHANGE_PAIRS
-
+--select * from TB_CURRENCIES
+--drop table TB_EXCHANGEs
+--drop table TB_EXCHANGE_PAIRS
 

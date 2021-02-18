@@ -13,17 +13,14 @@ namespace back_end.Controllers
     public class SimpleController : Controller
     {
         private ISimpleService _service;
+        private IExternalApiService externalApiService;
 
-        public SimpleController(ISimpleService service)
+        public SimpleController(ISimpleService service, IExternalApiService externalApiService)
         {
             _service = service;
+            this.externalApiService = externalApiService;
         }
-        // GET api/values
-        [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
+
 
 
         [HttpGet("currencies")]

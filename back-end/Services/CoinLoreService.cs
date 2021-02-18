@@ -125,10 +125,13 @@ namespace Services
         public async Task<List<Exchange>> GetExchangeWithPairs()
         {
             var exchanges = await GetExchanges();
+            int i = 0;
             foreach (var item in exchanges)
             {
                 item.ExchangePairs = await GetPairsByExchangeId(item.Id);
                 item.ExchangePairs.ForEach(x => x.IdExchange = item.Id);
+                i++;
+                //if (i > 10) break;
             }
             return exchanges;
         }

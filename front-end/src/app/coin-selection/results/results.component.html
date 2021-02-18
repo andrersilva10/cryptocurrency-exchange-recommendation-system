@@ -1,5 +1,5 @@
 <div [hidden]="!showResults && !dataFound">
-
+    <p>The request was made in {{endRequest}}ms</p>
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
         <ng-container matColumnDef="idPair">

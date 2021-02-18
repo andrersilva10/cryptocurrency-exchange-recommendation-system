@@ -34,6 +34,10 @@ export class ResultsComponent implements OnInit, AfterViewInit {
 
   chartLabels: Label[];
   chartData: ChartDataSets[];
+
+  startRequest;
+  endRequest;
+
   constructor(
     private _currenciesService: CurrenciesService,
     private _activatedRoute: ActivatedRoute,
@@ -45,6 +49,7 @@ export class ResultsComponent implements OnInit, AfterViewInit {
       this.currencySymbol2 = params['to'];
       if (this.currencySymbol1 && this.currencySymbol2) {
         this.showResults = false;
+        this.startRequest = performance.now();
         this.apiData = this._currenciesService
                           .getPairs(this.currencySymbol1, this.currencySymbol2)
                             .subscribe(data => this.getPairsCallback(data));
@@ -77,7 +82,6 @@ export class ResultsComponent implements OnInit, AfterViewInit {
   }
 
   chartCallback = (data) => {
-    debugger;
     let chartLabels = Object.getOwnPropertyNames(data.rates);
     if(chartLabels.length == 0){
       this.showChart = false;
@@ -92,6 +96,8 @@ export class ResultsComponent implements OnInit, AfterViewInit {
     this.chartLabels  = chartLabels;
     this.chartData = [{data: chartData, label: this.currencySymbol1 + '/' + this.currencySymbol2}];
     this.showChart = true;
+
+    this.endRequest =Math.round(performance.now() - this.startRequest);
   }
 
 
