@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { CurrencyModel } from '../models/currency.model';
 import { PairModel } from '../models/pair.model';
 
 @Injectable()
 export class CurrenciesService{
-    apiUrl = "https://localhost:44332/api/simple/";
-
+    apiUrl = environment.localApiUrl + 'simple/';
+    
     constructor(
         public httpClient: HttpClient
     ) 

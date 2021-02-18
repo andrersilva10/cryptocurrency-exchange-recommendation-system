@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  exchangeRateApiUrl: 'https://api.exchangerate.host/',
+  localApiUrl: 'https://localhost:44332/api/'
+
 };
 
 /*

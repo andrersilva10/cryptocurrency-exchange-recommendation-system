@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { CurrencyModel } from '../models/currency.model';
 import { PairModel } from '../models/pair.model';
 
 @Injectable()
 export class ExchangeRateService{
-    apiUrl = "https://api.exchangerate.host/";
-
+    apiUrl = environment.exchangeRateApiUrl;
+    
     constructor(
         public httpClient: HttpClient
     ) 
@@ -25,7 +26,7 @@ export class ExchangeRateService{
         let month2 = this.putZeroInTheLeft((today.getMonth() + 1));
         let day1 = this.putZeroInTheLeft(tenDaysAgo.getDate());
         let day2 = this.putZeroInTheLeft(today.getDate());
-        
+
         let d1 =`${tenDaysAgo.getFullYear()}-${month1}-${day1}` ;
         let d2 =`${today.getFullYear()}-${month2}-${day2}` ;
 
