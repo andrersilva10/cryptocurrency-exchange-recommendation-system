@@ -40,7 +40,7 @@ namespace Infrastructure
         {
             
             var exchanges = _context.ExchangePairs.Where(
-                    x => x.Base == currencySymbol1 
+                    x => x.Price > 0M && x.Base == currencySymbol1 
                     && (currencySymbol2 != "USD" ? x.Quote == currencySymbol2 : true)
                 )
                 .Select(x => x.Exchange).Distinct().ToList();
@@ -58,6 +58,7 @@ namespace Infrastructure
         {
             var allRows = _context.Exchanges.ToList();
             _context.Exchanges.RemoveRange(allRows);
+            _context.SaveChanges();
         }
 
         public void clearCurrencies()
@@ -65,6 +66,7 @@ namespace Infrastructure
             
             var allRows = _context.Currencies.ToList();
             _context.Currencies.RemoveRange(allRows);
+            _context.SaveChanges();
         }
     }
 }

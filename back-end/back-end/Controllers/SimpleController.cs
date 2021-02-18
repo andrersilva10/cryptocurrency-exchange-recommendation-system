@@ -13,20 +13,9 @@ namespace back_end.Controllers
     public class SimpleController : Controller
     {
         private ISimpleService _service;
-        private IExternalApiService externalApiService;
-
-        public SimpleController(ISimpleService service, IExternalApiService externalApiService)
+        public SimpleController(ISimpleService service)
         {
             _service = service;
-            this.externalApiService = externalApiService;
-        }
-
-        [HttpPost("exchanges")]
-        public async Task<ActionResult<string>> Exchanges()
-        {
-            await externalApiService.AddExchanges();
-
-            return Json(new { });
         }
 
         [HttpGet("currencies")]

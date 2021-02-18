@@ -42,4 +42,4 @@ GO
 --select * from TB_CURRENCIES
 --drop table TB_EXCHANGEs
 --drop table TB_EXCHANGE_PAIRS
-
+--drop table TB_CURRENCIES
